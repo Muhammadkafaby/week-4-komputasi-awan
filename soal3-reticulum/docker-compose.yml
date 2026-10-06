@@ -1,0 +1,11 @@
+services:
+  node_a:
+    build: .
+    container_name: rns-node-a
+    entrypoint: ["python", "node_a.py"]
+  node_b:
+    build: .
+    container_name: rns-node-b
+    depends_on:
+      - node_a
+    entrypoint: ["python", "node_b.py"]

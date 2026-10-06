@@ -1,0 +1,20 @@
+services:
+  server:
+    build: .
+    container_name: rpc-prima-server
+    networks:
+      - devstack
+  client:
+    build: .
+    container_name: rpc-prima-client
+    depends_on:
+      - server
+    restart: on-failure
+    entrypoint: ["python", "prima_client.py", "server", "11"]
+    networks:
+      - devstack
+
+networks:
+  devstack:
+    name: vikunja_default
+    external: true

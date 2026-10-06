@@ -1,0 +1,33 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mqtt-broker
+    networks:
+      - devstack
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+  publisher:
+    build: .
+    container_name: mqtt-publisher
+    depends_on:
+      - mosquitto
+    environment:
+      MQTT_BROKER: mosquitto
+      INTERVAL: "60"
+    networks:
+      - devstack
+  subscriber:
+    build: .
+    container_name: mqtt-subscriber
+    depends_on:
+      - mosquitto
+    environment:
+      MQTT_BROKER: mosquitto
+    entrypoint: ["python", "subscriber.py"]
+    networks:
+      - devstack
+
+networks:
+  devstack:
+    name: vikunja_default
+    external: true
