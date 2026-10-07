@@ -2,12 +2,14 @@
 Layout, logo (image1.png), header/footer, dan styles template dipertahankan.
 """
 from docx import Document
-from docx.shared import Pt, RGBColor
+from docx.shared import Pt, RGBColor, Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
+import os
 
 SRC = "/out/Tugas-4 Komunikasi pada Sistem Terdistribusi.docx"
 DST = "/out/LAPORAN-Tugas-4.docx"
+SHOT = "/out/screenshots"
 
 doc = Document(SRC)
 body = doc.element.body
@@ -67,10 +69,17 @@ def numbered(items):
         doc.add_paragraph(f"{i}. {it}")
 
 
-def screenshot(text):
-    p = doc.add_paragraph()
-    r = p.add_run(f"[{text}]")
+def screenshot(path, caption):
+    """Sisipkan gambar hasil + keterangan."""
+    if os.path.exists(path):
+        p = doc.add_paragraph()
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p.add_run().add_picture(path, width=Inches(6.0))
+    cap = doc.add_paragraph()
+    cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r = cap.add_run(caption)
     r.italic = True
+    r.font.size = Pt(9)
     r.font.color.rgb = RGBColor(0x80, 0x80, 0x80)
 
 
@@ -156,7 +165,7 @@ docker compose up --build --abort-on-container-exit''')
 add("Hasil:", bold=True)
 code('''rpc-prima-server  | RPC server prima jalan di 0.0.0.0:8000
 rpc-prima-client  | rpc_prima(11) = 2, 3, 5, 7, 11''')
-screenshot("Screenshot: output client rpc_prima(11) = 2, 3, 5, 7, 11")
+screenshot(f"{SHOT}/01-rpc.png", "Screenshot: output client rpc_prima(11) = 2, 3, 5, 7, 11")
 
 doc.add_page_break()
 
@@ -238,7 +247,7 @@ mqtt-publisher   | kirim: {'suhu': 32.9, 'kelembapan': 48.85, 'timestamp': '2026
 mqtt-publisher   | kirim: {'suhu': 29.29, 'kelembapan': 57.42, 'timestamp': '2026-10-06 07:03:12'}
 mqtt-subscriber  | Subscriber terhubung ke broker mosquitto, subscribe 'sensor/dummy'
 mqtt-subscriber  | terima [sensor/dummy] {"suhu": 29.29, "kelembapan": 57.42, "timestamp": "2026-10-06 07:03:12"}''')
-screenshot("Screenshot: log publisher dan subscriber")
+screenshot(f"{SHOT}/02-mqtt.png", "Screenshot: log publisher dan subscriber")
 
 doc.add_page_break()
 
@@ -357,7 +366,7 @@ rns-node-a  | Node A mengirim announce: 1914016191ac77c5b5660846f8bbb646
 rns-node-b  | Node B menunggu announce dari node A...
 rns-node-b  | Node B menerima announce: 1914016191ac77c5b5660846f8bbb646
 rns-node-b  |   app_data: halo dari node A''')
-screenshot("Screenshot: log Node A mengirim announce dan Node B menerima announce")
+screenshot(f"{SHOT}/03-reticulum.png", "Screenshot: log Node A mengirim announce dan Node B menerima announce")
 
 doc.add_page_break()
 
@@ -408,7 +417,7 @@ add("Hasil:", bold=True)
 code('''https://rpc.devstacklabs.net    -> rpc_prima(11) = [2, 3, 5, 7, 11]
 wss://mqtt.devstacklabs.net/    -> terima [sensor/dummy] {"suhu":30.98,...}
 https://kanban.devstacklabs.net -> 200''')
-screenshot("Screenshot: akses https://rpc.devstacklabs.net dan client MQTT via wss://mqtt.devstacklabs.net")
+screenshot(f"{SHOT}/04-deploy.png", "Screenshot: akses https://rpc.devstacklabs.net dan client MQTT via wss://mqtt.devstacklabs.net")
 add("Catatan keamanan: allow_anonymous true pada broker hanya untuk demo; untuk production wajib "
     "diaktifkan autentikasi (user/password atau client certificate) beserta ACL.")
 

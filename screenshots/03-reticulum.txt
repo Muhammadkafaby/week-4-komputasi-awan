@@ -1,0 +1,8 @@
+user@devstack:~$ docker logs rns-node-a
+Node A siap. Destination hash: 268f5adff08c136bd88a5bada285735b
+Node A mengirim announce: 268f5adff08c136bd88a5bada285735b
+Node A mengirim announce: 268f5adff08c136bd88a5bada285735b
+user@devstack:~$ docker logs rns-node-b
+Node B menunggu announce dari node A...
+Node B menerima announce: 268f5adff08c136bd88a5bada285735b
+  app_data: halo dari node A

@@ -1,0 +1,7 @@
+user@devstack:~$ docker logs mqtt-publisher
+kirim: {'suhu': 32.44, 'kelembapan': 49.86, 'timestamp': '2026-10-07 05:14:43'}
+kirim: {'suhu': 29.48, 'kelembapan': 61.92, 'timestamp': '2026-10-07 05:15:43'}
+kirim: {'suhu': 27.25, 'kelembapan': 60.69, 'timestamp': '2026-10-07 05:16:43'}
+user@devstack:~$ docker logs mqtt-subscriber
+terima [sensor/dummy] {"suhu": 29.48, "kelembapan": 61.92, "timestamp": "2026-10-07 05:15:43"}
+terima [sensor/dummy] {"suhu": 27.25, "kelembapan": 60.69, "timestamp": "2026-10-07 05:16:43"}

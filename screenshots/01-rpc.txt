@@ -1,0 +1,4 @@
+user@devstack:~/week-4-komputasi-awan/soal1-rpc$ docker compose up --build --abort-on-container-exit
+rpc-prima-server  | RPC server prima jalan di 0.0.0.0:8000
+rpc-prima-server  | 172.19.0.9 - - [07/Oct/2026 05:16:56] "POST /RPC2 HTTP/1.1" 200 -
+rpc-prima-client  | rpc_prima(11) = 2, 3, 5, 7, 11

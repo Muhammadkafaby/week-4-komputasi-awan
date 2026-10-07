@@ -1,0 +1,7 @@
+user@devstack:~$ python3 -c "import xmlrpc.client; print(xmlrpc.client.ServerProxy('https://rpc.devstacklabs.net').rpc_prima(11))"
+[2, 3, 5, 7, 11]
+user@devstack:~$ curl -s -o /dev/null -w '%{http_code}' https://kanban.devstacklabs.net
+200
+user@devstack:~$ python3 -c "import paho.mqtt.client as mqtt; ... connect wss://mqtt.devstacklabs.net:443"
+CONNECT rc= Success
+WSS terima [sensor/dummy] {"suhu": 31.46, "kelembapan": 69.33, "timestamp": "2026-10-07 05:17:43"}
